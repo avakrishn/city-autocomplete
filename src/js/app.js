@@ -77,7 +77,6 @@ const App = {
         const matches = App.findMatches(this.value, App.places);
         suggestions.innerHTML = "";
 
-        console.log(matches);
        
         matches.forEach(match => {
             const li = document.createElement('li');
