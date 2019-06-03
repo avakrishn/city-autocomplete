@@ -6,7 +6,20 @@ const App = {
     places: [],
 
     placeholderText: function (actionType){
-   
+        const suggestions = document.querySelector('ul.suggestions');
+        const firstLI = document.createElement('li');
+        const secondLI = document.createElement('li');
+        suggestions.innerHTML = "";
+
+        if(actionType === "start screen"){
+            firstLI.innerText = "Filter for a city...";
+            secondLI.innerText = "...Or a state";
+        }else if(actionType === "not found"){
+            firstLI.innerText = "City or state not found...";
+            secondLI.innerText = "...Try a new search";
+        }
+        
+        suggestions.append(firstLI, secondLI);
     },
 
     fetchPlaces: async function (){
@@ -100,7 +113,10 @@ const App = {
     },
 
     findMatches: function (strToMatch, places){
- 
+        return places.filter(place => {
+            const regex = new RegExp(strToMatch, 'gi');
+            return place.city.match(regex) || place.state.match(regex);
+        });
     },
 
 };
