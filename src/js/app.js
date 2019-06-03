@@ -5,6 +5,10 @@ const App = {
 
     places: [],
 
+    placeholderText: function (actionType){
+   
+    },
+
     fetchPlaces: async function (){
         // Async Await 
         const places_response = await fetch(this.places_endpoint);
@@ -51,7 +55,53 @@ const App = {
 
     },
 
-    
+    displayPlaces: function (){
+        
+        if(this.value === ""){
+            return App.placeholderText("start screen");
+        }
+        const suggestions = document.querySelector('ul.suggestions');
+        const matches = App.findMatches(this.value, App.places);
+        suggestions.innerHTML = "";
+
+        console.log(matches);
+       
+        matches.forEach(match => {
+            const li = document.createElement('li');
+            const name = document.createElement('span');
+            const population = document.createElement('span');
+            const highlight = document.createElement('span');
+            // const popNumber = 
+            
+
+            highlight.classList.add('hl');
+            highlight.innerText = this.value;
+            
+            const regex = new RegExp(this.value, 'gi');
+
+            const cityName = match.city.replace(regex, highlight.outerHTML);
+            const stateName = match.state.replace(regex, highlight.outerHTML);
+
+            name.classList.add('name');
+            name.innerHTML = `${cityName}, ${stateName}`;
+
+            population.classList.add('population');
+            population.innerHTML = match.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            li.append(name, population);
+            return suggestions.append(li);
+
+        });
+
+        if(suggestions.childNodes.length === 0){
+            return App.placeholderText("not found");
+        }
+        
+    },
+
+    findMatches: function (strToMatch, places){
+ 
+    },
 
 };
 
